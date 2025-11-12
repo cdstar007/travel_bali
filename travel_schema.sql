@@ -1,0 +1,26 @@
+CREATE DATABASE IF NOT EXISTS travel_record DEFAULT CHARACTER SET utf8mb4;
+USE travel_record;
+
+CREATE TABLE IF NOT EXISTS travel_records (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    date DATE NOT NULL COMMENT '日期（YYYY-MM-DD）',
+    hotel VARCHAR(255) DEFAULT '' COMMENT '酒店信息',
+    breakfast VARCHAR(255) DEFAULT '' COMMENT '早餐',
+    lunch VARCHAR(255) DEFAULT '' COMMENT '午餐',
+    dinner VARCHAR(255) DEFAULT '' COMMENT '晚餐',
+    attractions TEXT COMMENT '景点记录',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uk_date (date) COMMENT '日期唯一'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='每日行程记录表';
+
+CREATE TABLE IF NOT EXISTS travel_time_slots (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    record_id INT NOT NULL COMMENT '关联主表ID',
+    time VARCHAR(5) NOT NULL COMMENT '时间（如08:00）',
+    content TEXT NOT NULL COMMENT '行程内容',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    KEY idx_record_id (record_id),
+    CONSTRAINT fk_slot_record FOREIGN KEY (record_id) 
+        REFERENCES travel_records(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='时间段行程表';
