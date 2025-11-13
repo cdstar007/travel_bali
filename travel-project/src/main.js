@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia'; // 引入Pinia
 import router from './router'; // 引入路由
 import App from './App.vue'; // 引入根组件
-import './assets/css/main.css'; // 引入全局样式
+import './assets/css/style.css'
 
 // 创建Vue应用并挂载
 const app = createApp(App);
